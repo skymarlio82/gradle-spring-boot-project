@@ -3,19 +3,24 @@ pipeline {
   agent any
 
   stages {
+    stage('Clean') {
+      steps {
+          echo 'Clean..'
+      }
+    }
     stage('Build') {
         steps {
-            gradle compileJava compileTestJava
+            echo 'Building..'
         }
     }
     stage('Test') {
         steps {
-            gradle test
+            echo 'Testing..'
         }
     }
     stage('Deploy') {
         steps {
-            gradle build -x test
+            echo 'Deploying....'
         }
     }
   }

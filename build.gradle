@@ -1,0 +1,86 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'application'
+    id 'org.springframework.boot' version '2.0.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+}
+
+repositories {
+    // Use jcenter for resolving dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-dependencies:2.0.5.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    components {
+        withModule('org.springframework:spring-beans') {
+            allVariants {
+                withDependencyConstraints {
+                    // Need to patch constraints because snakeyaml is an optional dependency
+                    it.findAll { it.name == 'snakeyaml' }.each { it.version { strictly '1.19' } }
+                }
+            }
+        }
+    }
+}
+
+bootJar {
+    mainClassName = 'com.wiz.example.demo.boot.Application'
+}
+
+test {
+    useJUnit()
+}
+
+application {
+    // Define the main class for the application.
+    mainClassName = 'com.wiz.example.demo.boot.Application'
+}
+
+group 'com.wiz.example'
+version '0.1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+ext {
+    profile = System.getProperty("env") ?: "dev"
+    println "[current profile]:" + profile
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["src/main/resources", "env/$profile"]
+        }
+    }
+}
+
+jar {
+    String someString = ''
+    configurations.runtime.each { someString = someString + " lib//" + it.name }
+    manifest {
+        attributes 'Main-Class': 'com.wiz.example.demo.boot.Application'
+        attributes 'Class-Path': someString
+    }
+}
+
+// 清除上次的编译过的文件
+task clearPj(type: Delete) {
+    delete 'build', 'target'
+}
+
+task copyJar(type: Copy) {
+    from configurations.runtime
+    into('build/libs/lib')
+}
+
+// 把JAR复制到目标目录
+task release(type: Copy, dependsOn: [build, copyJar]) {
+
+}

@@ -5,17 +5,17 @@ pipeline {
   stages {
     stage('Build') {
         steps {
-            echo 'Building..'
+            gradle compileJava compileTestJava
         }
     }
     stage('Test') {
         steps {
-            echo 'Testing..'
+            gradle test
         }
     }
     stage('Deploy') {
         steps {
-            echo 'Deploying....'
+            gradle build -x test
         }
     }
   }

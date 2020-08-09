@@ -1,2 +1,2 @@
 # gradle-spring-boot-project
-The simple sample of Spring Boot 666
+The simple sample of Spring Boot 777

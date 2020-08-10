@@ -6,3 +6,4 @@ if [ -n "$pid" ]
 then
 kill -9 $pid
 fi
+exit 0

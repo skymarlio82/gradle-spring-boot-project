@@ -21,6 +21,6 @@ public class ApplicationTest {
 //        mvc.perform(get("/"))
 //            .andExpect(status().isOk())
 //            .andExpect(content().string("Hello, Gradle!"));
-//        assertEquals(new Integer(100), Integer.valueOf("100"));
+        assertEquals(new Integer(100), Integer.valueOf("100"));
     }
 }

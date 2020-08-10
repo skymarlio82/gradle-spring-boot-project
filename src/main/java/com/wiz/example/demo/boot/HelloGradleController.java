@@ -13,7 +13,7 @@ public class HelloGradleController {
     @GetMapping
     public String helloGradle(String name) {
         logger.debug("===> Input name : " + name);
-        String result = StringUtils.hasText(name) ? ("Hello, " + name + "! 111") : "Hello, Gradle!";
+        String result = StringUtils.hasText(name) ? ("Hello, " + name + "! 222") : "Hello, Gradle!";
         logger.info("RESTful Result : " + result);
         return result;
     }
